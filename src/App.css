@@ -1,0 +1,25 @@
+.navBarButton:hover {
+    background-color: aliceblue !important;
+}
+
+.addToCartButton, .removeFromCart {
+    background-color: pink !important;
+}
+
+.addToCartButton:hover, .removeFromCart:hover {
+    background-color: darkblue !important;
+}
+
+.addToCartButton a:hover, .removeFromCart a:hover{
+    color: white !important;
+}
+
+.linkFormatting{
+    color: darkblue;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+input, #description, #status, #type {
+    background-color: white !important;
+}
