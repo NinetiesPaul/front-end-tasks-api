@@ -1,5 +1,5 @@
-## Wine App - Frontend
-A simple bare bones Front end application in ReactJS, meant to work in tandem with the Back End made in PHP
+## Task Manager - Frontend
+A Front end application in ReactJS, meant to work in tandem with the Back End of the Tasks API projects made in PHP, Node, Python or Java Springboot
 
 ## Environment requirements
 To run this application you must have installed on your environment:
@@ -16,7 +16,7 @@ npm install
 ```
 cp .env.dist .env
 ```
-- Before running the application, set the host address on the .env file which is going to serve the application (the URL you selected when hosting the PHP backend). For example:
+- Before running the application, set the host address on the .env file which is going to be used to serve the backend application. For example:
 ```
 REACT_APP_SERVER_HOST=http://localhost:8080
 ```
