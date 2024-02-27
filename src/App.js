@@ -50,7 +50,7 @@ class App extends Component
 							<Route path="/" element={<ListTasks />} />
 						</Routes>
 						<Routes>
-							<Route path="/taks" element={<CreateTaskForm />} />
+							<Route path="/task" element={<CreateTaskForm />} />
 						</Routes>
 						<Routes>
 							<Route path="/task/view/:id" element={<ViewTask />} />
@@ -99,20 +99,17 @@ function MainButton()
 				>
 					{ isAdmin ? (
 						<MenuItem>
-							<Link href={'/product'} style={{textDecoration: 'none'}}><span className={'linkFormatting'}>Cadastrar Itens</span></Link>
+							<Link href={'/task'} style={{textDecoration: 'none'}}><span className={'linkFormatting'}>Create Task</span></Link>
 						</MenuItem>
 					) : (
 						<>
 							<MenuItem>
-								<Link href={'/cart'} style={{textDecoration: 'none'}} > <span className={'linkFormatting'}>Carrinho</span> </Link>
-							</MenuItem>
-							<MenuItem>
-								<Link href={'/orders'} style={{textDecoration: 'none'}} ><span className={'linkFormatting'}>Meus Pedidos</span></Link>
+								<Link href={'/task'} style={{textDecoration: 'none'}}><span className={'linkFormatting'}>Create Task</span></Link>
 							</MenuItem>
 						</>
 					)}
 					<MenuItem>
-						<Link href={'/logout'} style={{textDecoration: 'none'}} ><span className={'linkFormatting'}>Sair</span></Link>
+						<Link href={'/logout'} style={{textDecoration: 'none'}} ><span className={'linkFormatting'}>Logout</span></Link>
 					</MenuItem>
 				</Menu>
 			</>
