@@ -4,12 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import './App.css';
 
-import ListTasks from './components/Tasks/ListTasks';
-import ViewTask from './components/Tasks/ViewTask';
-import EditTask from './components/Tasks/EditTask';
-import CreateTask from './components/Tasks/CreateTask';
-import LoginForm from './components/LoginForm';
-import Logout from './components/Logout';
+import RoutesHandler from './components/RoutesHandler';
 
 class App extends Component
 {
@@ -36,31 +31,9 @@ class App extends Component
 				<Container style={{backgroundColor: 'lightskyblue', padding: '0.2em', textAlign: 'center', minHeight: '2.7em'}}>
 					<MainButton />
 					<TaskTypeQuickFilter />
-					
-				</Container>
-				<Container style={{backgroundColor: 'aliceblue', padding: '1em', minHeight: '30em'}}>
-					<BrowserRouter>
-						<Routes>
-							<Route path="/login" element={<LoginForm setLogged={this.setLogged.bind(this) } />} />
-						</Routes>
-						<Routes>
-							<Route path="/logout" element={<Logout setLogged={this.setLogged.bind(this)} />} />
-						</Routes>
-						<Routes>
-							<Route path="/" element={<ListTasks />} />
-						</Routes>
-						<Routes>
-							<Route path="/task" element={<CreateTask />} />
-						</Routes>
-						<Routes>
-							<Route path="/task/view/:id" element={<ViewTask />} />
-						</Routes>
-						<Routes>
-							<Route path="/task/edit/:id" element={<EditTask />} />
-						</Routes>
-					</BrowserRouter>
 				</Container>
 				
+				<RoutesHandler setLogged={this.setLogged.bind(this) }/>
 			</Container>
 		);
 	}
