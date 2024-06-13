@@ -4,12 +4,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import './App.css';
 
-import ListTasks from './components/ListTasks';
-import ViewTask from './components/ViewTask';
-import EditTask from './components/EditTask';
+import ListTasks from './components/Tasks/ListTasks';
+import ViewTask from './components/Tasks/ViewTask';
+import EditTask from './components/Tasks/EditTask';
+import CreateTask from './components/Tasks/CreateTask';
 import LoginForm from './components/LoginForm';
 import Logout from './components/Logout';
-import CreateTaskForm from './components/CreateTaskForm';
 
 class App extends Component
 {
@@ -50,7 +50,7 @@ class App extends Component
 							<Route path="/" element={<ListTasks />} />
 						</Routes>
 						<Routes>
-							<Route path="/task" element={<CreateTaskForm />} />
+							<Route path="/task" element={<CreateTask />} />
 						</Routes>
 						<Routes>
 							<Route path="/task/view/:id" element={<ViewTask />} />

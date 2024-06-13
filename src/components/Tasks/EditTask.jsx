@@ -2,7 +2,7 @@ import { Alert, Button, Grid, Snackbar, TextField, TableBody, TableCell, TableCo
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import ErrorMessages from "../enums/ErrorMessages";
+import ErrorMessages from "../../enums/ErrorMessages";
 
 function EditTask()
 {

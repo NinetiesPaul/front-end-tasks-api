@@ -2,9 +2,9 @@ import { Alert, Grid, Snackbar, TextField, Divider, Container, MenuItem } from "
 import { React, useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
-import ErrorMessages from "../enums/ErrorMessages";
-//import StatusList from "../enums/StatusList";
-//import TypeList from "../enums/TypeList";
+import ErrorMessages from "../../enums/ErrorMessages";
+import StatusList from "../../enums/StatusList";
+import TypeList from "../../enums/TypeList";
 
 function ListTasks()
 {
@@ -21,14 +21,6 @@ function ListTasks()
     const [filterContext, setFilterContext] = useState("status");
     const [filterParam, setFilterParam] = useState('');
     const [filterByUser, setFilterByUser] = useState("");
-
-    const statusFormattedText = {
-        closed: "Closed",
-        open: "Open",
-        in_qa: "In QA",
-        in_dev: "In Dev",
-        blocked: "Blocked",
-    }
 
     const filterString = (searchParams.get('tipo') === null) ? '' : '?type='+searchParams.get('tipo');
     const host = process.env.REACT_APP_SERVER_HOST;
@@ -117,8 +109,8 @@ function ListTasks()
                                 <span>
                                     <Link to={'/task/view/' + task.id} style={{textDecoration: 'none' }}> <b>{task.title}</b> </Link>
                                 </span><br/>
-                                { task.type.charAt(0).toUpperCase() + task.type.slice(1) }<br/>
-                                { statusFormattedText[task.status] }<br/>
+                                { TypeList[task.type] }<br/>
+                                { StatusList[task.status] }<br/>
                                 <Divider />
                                 <i>Created by <b>{task.created_by.name}</b> on {task.created_on}</i> <br/>
                             </Grid>

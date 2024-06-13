@@ -2,9 +2,9 @@ import { React, useState } from "react";
 import { Alert, Button, MenuItem, Snackbar, TextField } from "@mui/material";
 import { useNavigate } from "react-router";
 
-import ErrorMessages from "../enums/ErrorMessages";
+import ErrorMessages from "../../enums/ErrorMessages";
 
-function CreateTaskForm()
+function CreateTask()
 {
     const navigate = useNavigate();
 
@@ -130,4 +130,4 @@ function CreateTaskForm()
 
 }
 
-export default CreateTaskForm;
+export default CreateTask;

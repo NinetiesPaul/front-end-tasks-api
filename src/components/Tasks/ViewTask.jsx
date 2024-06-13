@@ -2,7 +2,7 @@ import { Alert, Button, Grid, Snackbar, TableBody, TableCell, TableContainer, Ta
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import ErrorMessages from "../enums/ErrorMessages";
+import ErrorMessages from "../../enums/ErrorMessages";
 
 function ViewTask()
 {
