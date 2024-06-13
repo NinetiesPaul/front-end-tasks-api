@@ -1,9 +1,5 @@
 const ErrorMessages = {
-    DEFAULT_ERROR_MSG: "Desculpe, houve algum problema com a sua requisição, por favor tente novamente em instantes",
-    INVALID_PRICE: "Valor de preço inválido",
-    INVALID_WEIGHT: "Valor de peso inválido",
-    INVALID_NAME: "Nome inválido",
-    INVALID_TYPE: "Tipo inválido"
+    DEFAULT_ERROR_MSG: "We're sorry! Something went wrong with your last request, please try again!",
 }
 
 export default ErrorMessages;

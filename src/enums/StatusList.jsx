@@ -1,3 +1,9 @@
-const StatusList = [ 'open', 'closed', 'in_dev', 'blocked', 'in_qa' ];
+const StatusList = {
+    closed: "Closed",
+    open: "Open",
+    in_qa: "In QA",
+    in_dev: "In Dev",
+    blocked: "Blocked",
+}
 
 export default StatusList;
