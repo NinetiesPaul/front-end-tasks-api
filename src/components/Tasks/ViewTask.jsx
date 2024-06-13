@@ -1,6 +1,5 @@
 import { Alert, Button, Grid, Snackbar, TableBody, TableCell, TableContainer, TableRow, Stack, Chip } from "@mui/material";
 import { React, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 
 import ErrorMessages from "../../enums/ErrorMessages";
 import StatusList from "../../enums/StatusList";
@@ -8,8 +7,6 @@ import TypeList from "../../enums/TypeList";
 
 function ViewTask()
 {
-    const navigate = useNavigate();
-
     const [notificationType, setNotificationType] = useState("");
     const [notificationMsg, setNotificationMsg] = useState("");
     const [showNotification, setShowNotification] = useState(false);
@@ -67,11 +64,11 @@ function ViewTask()
                                 (task.status !== "closed") ? 
                                     (
                                         <>
-                                            <Button style={{ height: '2.2em', marginTop: '-0.6em', backgroundColor: 'lightskyblue', color: 'black' }}>
-                                                <a href={"/task/edit/" + task.id} style={{textDecoration: 'none', fontSize:'x-small', color: 'black'}}  >Edit</a>
+                                            <Button style={{ height:'3.5em', marginTop: '-0.6em', backgroundColor: 'lightskyblue', color: 'black', fontSize: 'x-small' }} href={"/task/edit/" + task.id}>
+                                                Edit
                                             </Button>&nbsp;
-                                            <Button style={{ height: '2.2em', marginTop: '-0.6em', backgroundColor: 'lightcoral', color: 'black' }}>
-                                                <a href="#" style={{textDecoration: 'none', fontSize:'x-small', color: 'black'}} onClick={() => { handleCloseTask(task.id) }} >Close</a>
+                                            <Button style={{ height:'3.5em', marginTop: '-0.6em', backgroundColor: 'lightcoral', color: 'black', fontSize: 'x-small' }} onClick={() => { handleCloseTask(task.id) }}>
+                                                Close
                                             </Button>
                                         </>
                                     ) : ('')

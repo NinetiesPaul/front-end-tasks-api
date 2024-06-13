@@ -1,6 +1,5 @@
 import { Component, useState } from 'react';
 import { Button, Container, Link, Menu, MenuItem, Typography } from '@mui/material';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import './App.css';
 
