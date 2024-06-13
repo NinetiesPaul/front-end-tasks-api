@@ -3,6 +3,8 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import ErrorMessages from "../../enums/ErrorMessages";
+import StatusList from "../../enums/StatusList";
+import TypeList from "../../enums/TypeList";
 
 function ViewTask()
 {
@@ -18,20 +20,6 @@ function ViewTask()
 
     const host = process.env.REACT_APP_SERVER_HOST;
     const token = sessionStorage.getItem("token");
-
-    const statusFormattedText = {
-        closed: "Closed",
-        open: "Open",
-        in_qa: "In QA",
-        in_dev: "In Dev",
-        blocked: "Blocked",
-    }
-
-    const typesFormattedText = {
-        hotfix: "Hotfix",
-        bugfix: "Bugfix",
-        feature: "Feature",
-    }
 
     useEffect(() => {
         fetch(host + '/api' + window.location.pathname, { headers: { 'Authorization': 'Bearer ' + token } })
@@ -102,8 +90,8 @@ function ViewTask()
                     <TableRow>
                         <TableCell>
                         <Stack direction="row" spacing={1}>
-                            <Chip label={ statusFormattedText[task.status]  } color="primary" size="small" style={{minWidth: '10em'}} />
-                            <Chip label={ typesFormattedText[task.type]   } color="primary" size="small" style={{minWidth: '10em'}} />
+                            <Chip label={ StatusList[task.status] } color="primary" size="small" style={{minWidth: '10em'}} />
+                            <Chip label={ TypeList[task.type] } color="primary" size="small" style={{minWidth: '10em'}} />
                             <Chip label="High" color="error" size="small" style={{minWidth: '10em'}} />
                         </Stack>
                             <b>Description:</b> <br/>
