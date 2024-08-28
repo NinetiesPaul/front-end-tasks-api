@@ -1,4 +1,4 @@
-const EnumStatusTypes = {
+const EnumDictionary = {
     closed: "Closed",
     open: "Open",
     in_qa: "In QA",
@@ -11,4 +11,4 @@ const EnumStatusTypes = {
     added_assignee: "added"
 }
 
-export default EnumStatusTypes;
+export default EnumDictionary;
