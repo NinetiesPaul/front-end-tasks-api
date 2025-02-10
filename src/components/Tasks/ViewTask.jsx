@@ -17,6 +17,9 @@ function ViewTask()
     const [closedBy, setClosedBy] = useState(null);
     const [taskHistory, setTaskHistory] = useState([]);
     const [assignees, setAssignees] = useState([]);
+    const [comments, setComments] = useState([]);
+
+    const [newComment, setNewComment] = useState(null);
 
     const [users, setUsers] = useState([]);
 
@@ -31,6 +34,7 @@ function ViewTask()
             setCreatedBy(data.data.created_by);
             setAssignees(data.data.assignees)
             setTaskHistory(data.data.history);
+            setComments(data.data.comments);
             if (data.data.closed_by) {
                 setClosedBy(data.data.closed_by);
             }
@@ -41,7 +45,7 @@ function ViewTask()
             setShowNotification(true)
             setNotificationMsg(message)
         });
-    }, []);
+    });
 
     useEffect(() => {
         fetch(host + '/api/users/list', { headers: { 'Authorization': 'Bearer ' + token } })
@@ -119,7 +123,9 @@ function ViewTask()
             })
         .then((response) => response.json())
         .then((data) => {
-            window.location.reload(false)
+            if (data.success) {
+                window.location.reload(false)
+            }
         })
         .catch((err) => {
             var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
@@ -129,11 +135,64 @@ function ViewTask()
         });
     }
 
+    const handleAddComment = (taskId) => 
+        {
+            fetch(host + '/api/task/comment/' + taskId, 
+            {
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }, 
+                method: 'POST', 
+                body: JSON.stringify({
+                    "text": newComment
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    window.location.reload(false)
+                }
+            })
+            .catch((err) => {
+                var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
+                setNotificationType('error')
+                setShowNotification(true)
+                setNotificationMsg(message)
+            });
+    }
+
+    const handleRemoveComment = (commentId) => 
+        {
+            fetch(host + '/api/task/comment/' + commentId, 
+            {
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }, 
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    window.location.reload(false)
+                }
+            })
+            .catch((err) => {
+                var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
+                setNotificationType('error')
+                setShowNotification(true)
+                setNotificationMsg(message)
+            });
+    }
+
     return (
         <Grid key={task.id} >
-            <TableContainer >
-                <TableBody>
-                    <TableRow>
+            <TableContainer>
+                <TableBody style={{ width: '100%', display: 'table'}}>
+                    <TableRow >
                         <TableCell spacing={1}>
                             <h2 style={{ display: 'inline-block' }}>{task.title}</h2>&nbsp;&nbsp;&nbsp;
                             {
@@ -164,8 +223,8 @@ function ViewTask()
                                 <Chip label="High" color="error" size="small" style={{minWidth: '10em'}} />
                             </Stack>
                         </TableCell>
-                        <TableCell style={{ display: 'inline-block' }}>
-                            <TextField id="assignee" label="Assignee" margin="dense" size="small" fullWidth
+                        <TableCell>
+                            <TextField id="user" label="User" margin="dense" size="small" fullWidth
                             onChange={
                                 (event) => {
                                     handleTaskAssignment(event.target.value)
@@ -191,7 +250,7 @@ function ViewTask()
                                     {
                                         return (
                                             <>
-                                                <a href="#" data-id={assignee.id} onClick={(event) => { handleTaskUnassignment(event.target.dataset.id)}}>{ assignee.assigned_to.name }</a> <br/>
+                                                { assignee.assigned_to.name } <a href="#" data-id={assignee.id} onClick={(event) => { handleTaskUnassignment(event.target.dataset.id)}}>[ x ]</a> <br/>
                                             </>
                                         )
                                     }
@@ -202,24 +261,54 @@ function ViewTask()
                     </TableRow>
                     <TableRow>
                         <TableCell colSpan={2}>
-                            <b>Description:</b> <br/>
-                            { task.description }<br/>
+                            <b>Description:</b>
+                            <p>{ task.description }</p>
                         </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell colSpan={2}>
-                            <b>Task History:</b> <br/>
+                            <b>Activities:</b>
                             { 
                                 taskHistory.map((historyEntry) => 
                                     { 
                                         return [ 'added_assignee', 'removed_assignee' ].includes(historyEntry.field) ?
                                         (
                                             <>
-                                                { historyEntry.changed_by.name } { EnumDictionary[historyEntry.field] } { historyEntry.changed_to } as an assignee <br/>
+                                                <p>{ historyEntry.changed_by.name } { EnumDictionary[historyEntry.field] } { historyEntry.changed_to } as an assignee on { historyEntry.changed_on }</p>
                                             </>
                                         ) : ( 
                                             <>
-                                                {  historyEntry.field.charAt(0).toUpperCase() + historyEntry.field.slice(1) } changed from <i>{ EnumDictionary[historyEntry.changed_from] }</i> to <i>{ EnumDictionary[historyEntry.changed_to] }</i> by { historyEntry.changed_by.name } on { historyEntry.changed_on }  <br/>
+                                                <p>{  historyEntry.field.charAt(0).toUpperCase() + historyEntry.field.slice(1) } changed from <i>{ EnumDictionary[historyEntry.changed_from] }</i> to <i>{ EnumDictionary[historyEntry.changed_to] }</i> by { historyEntry.changed_by.name } on { historyEntry.changed_on }</p>
+                                            </>
+                                        )
+                                    }
+                                )
+                            }
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell colSpan={2}>
+                            <b>Comments:</b> <br/>
+                            <TextField id="description" multiline rows={10} sx={{ width: '75%' }}  size="small"
+                            onChange={
+                                (event) => {
+                                    setNewComment(event.target.value);
+                                }
+                            }/>
+                            <p>
+                            <Button style={{ height: '2.2em', marginTop: '-0.6em', backgroundColor: 'lightskyblue', color: 'black' }}>
+                                <a href="#" style={{textDecoration: 'none', fontSize:'x-small', color: 'black'}} onClick={() => { handleAddComment(task.id) }} >Post</a>
+                            </Button>
+                            </p>
+
+                            { 
+                                comments.map((comment) => 
+                                    {
+                                        return (
+                                            <>
+                                                <p>
+                                                    <b>{ comment.created_by.name }:</b><br/>{ comment.comment_text }<br/><i><small>{ comment.created_on }</small></i> <a href="#" data-id={comment.id} onClick={(event) => { handleRemoveComment(event.target.dataset.id)}}>[ x ]</a>
+                                                </p>
                                             </>
                                         )
                                     }
