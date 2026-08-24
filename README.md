@@ -1,26 +1,55 @@
 ## Task Manager - Frontend
-A Front end application in ReactJS, meant to work in tandem with the Back End of the Tasks API projects made in PHP, Node, Python or Java Springboot
 
-## Environment requirements
-To run this application you must have installed on your environment:
+Front-end em Vue.js para as APIs de Tasks (PHP, Node, Python ou Java Spring Boot).
 
-- Node (v.14 or greater) and npm (v.6 or greater) (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+## Requisitos de ambiente
 
-## Installation and Configuration
-After cloning this rep and cd into the project's folder. Run the following commands:
-- Install all libraries and package.json scripts
+Para rodar localmente:
+
+- Node (v.18 ou superior) e npm (v.9 ou superior)
+- Docker e Docker Compose (para execução containerizada)
+
+## Instalação e configuração (local)
+
+Após clonar o repositório e entrar na pasta do projeto:
+
+- Instale as dependências:
 ```
 npm install
 ```
-- Create a local copy of the .env file
+
+- Crie o arquivo `.env` a partir do exemplo:
 ```
 cp .env.dist .env
 ```
-- Before running the application, set the host address on the .env file which is going to be used to serve the backend application. For example:
+
+- Defina o endereço do backend no `.env`. Exemplo:
 ```
-REACT_APP_SERVER_HOST=http://localhost:8080
+VITE_SERVER_HOST=http://localhost:8080
 ```
-- Run the application to consume the RESTful application (If the server is running, that is)
+
+- Inicie o front-end (porta 3005):
 ```
 npm start
+```
+
+## Execução com Docker
+
+O `VITE_SERVER_HOST` é o URL do backend visto pelo **navegador** (não pelo container). Se a API estiver em `localhost:8080` na sua máquina, esse valor continua correto.
+
+```
+cp .env.dist .env
+docker compose up --build
+```
+
+A aplicação fica disponível em [http://localhost:3005](http://localhost:3005).
+
+Para apontar para outro backend no build:
+```
+VITE_SERVER_HOST=http://localhost:8080 docker compose up --build
+```
+
+Para usar outra porta no host:
+```
+FRONTEND_PORT=8081 docker compose up --build
 ```

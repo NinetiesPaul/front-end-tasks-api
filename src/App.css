@@ -1,20 +1,16 @@
+html, body, #app {
+    height: 100%;
+}
+
+.v-application {
+    background: #ffffff !important;
+}
+
 .navBarButton:hover {
     background-color: aliceblue !important;
 }
 
-.addToCartButton, .removeFromCart {
-    background-color: pink !important;
-}
-
-.addToCartButton:hover, .removeFromCart:hover {
-    background-color: darkblue !important;
-}
-
-.addToCartButton a:hover, .removeFromCart a:hover{
-    color: white !important;
-}
-
-.linkFormatting{
+.linkFormatting {
     color: darkblue;
     font-weight: bold;
     text-decoration: none;
@@ -22,4 +18,38 @@
 
 input, #description, #status, #type {
     background-color: white !important;
+}
+
+.taskplanner-title {
+    color: lightskyblue;
+    text-decoration: none;
+}
+
+.taskplanner-title:hover {
+    text-decoration: none;
+}
+
+.navbar-bar {
+    background-color: lightskyblue;
+    padding: 0.2em;
+    text-align: center;
+    min-height: 2.7em;
+}
+
+.content-area {
+    background-color: aliceblue;
+    padding: 1em;
+    min-height: 30em;
+}
+
+.task-card {
+    margin-bottom: 0.5em;
+    background-color: white;
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.assignee-link {
+    cursor: pointer;
+    color: #1976d2;
 }
