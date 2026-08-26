@@ -29,24 +29,31 @@ npm start
 ## Docker
 Requires Docker and Docker Compose.
 
-1. Configure the backend API URL (build-time variable for Create React App):
+1. Configure the backend API URL:
 ```
 cp .env.dist .env
 ```
 Edit `.env` if needed:
 ```
-REACT_APP_SERVER_HOST=http://localhost:8080
+REACT_APP_SERVER_HOST=http://localhost:3000
 FRONTEND_PORT=3005
+PORT=3005
 ```
 
-2. Build and run:
+2. **Development (hot reload):**
 ```
-docker compose up --build -d
+docker compose --profile dev up frontend-dev --build
 ```
+App at `http://localhost:3005`. Source changes under `src/` reload automatically.
 
-The app will be available at `http://localhost:3005`.
+3. **Production (nginx, static build — no hot reload):**
+```
+docker compose up frontend --build -d
+```
 
 Stop:
 ```
+docker compose --profile dev down
+# or
 docker compose down
 ```
