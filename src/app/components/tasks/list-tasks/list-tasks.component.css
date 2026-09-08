@@ -1,0 +1,29 @@
+.filters {
+  text-align: center;
+}
+
+.filter-context {
+  min-width: 10%;
+  max-width: 12em;
+  margin-right: 2em;
+}
+
+.filter-param {
+  max-width: 18em;
+}
+
+.filter-user {
+  min-width: 10%;
+  max-width: 14em;
+  margin-right: 2em;
+}
+
+.tasks-container {
+  gap: 2em;
+  padding: 1em;
+}
+
+.task-link {
+  text-decoration: none;
+  color: inherit;
+}

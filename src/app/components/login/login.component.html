@@ -1,0 +1,13 @@
+<form class="login-form" (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>E-mail</mat-label>
+    <input matInput id="nome" name="email" [(ngModel)]="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Password</mat-label>
+    <input matInput id="sobrenome" name="password" type="password" [(ngModel)]="password" />
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit">Login</button>
+</form>

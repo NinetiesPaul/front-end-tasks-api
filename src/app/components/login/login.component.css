@@ -1,0 +1,11 @@
+.login-form {
+  width: 30%;
+  margin: 0 auto;
+  padding-top: 10em;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+  margin-bottom: 0.5em;
+}

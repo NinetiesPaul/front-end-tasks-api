@@ -1,0 +1,45 @@
+<p class="filters">
+  <mat-form-field appearance="outline" class="filter-context">
+    <mat-label>Filter by</mat-label>
+    <mat-select [(ngModel)]="filterContext" name="filterContext">
+      @for (option of filterOptions; track option.value) {
+        <mat-option [value]="option.value">{{ option.title }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (filterContext !== 'created_by') {
+    <mat-form-field appearance="outline" class="filter-param">
+      <mat-label>Search {{ filterContext }}</mat-label>
+      <input matInput [(ngModel)]="filterParam" name="filterParam" />
+    </mat-form-field>
+  } @else {
+    <mat-form-field appearance="outline" class="filter-user">
+      <mat-label>Filter by user</mat-label>
+      <mat-select [(ngModel)]="filterByUser" name="filterByUser">
+        <mat-option [value]="null">All</mat-option>
+        @for (user of users; track user.id) {
+          <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+</p>
+
+<div class="tasks-container">
+  @for (task of filteredTasks; track task.id) {
+    <div class="task-card">
+      <span>
+        <a [routerLink]="['/task/view', task.id]" class="task-link">
+          <b>{{ task.title }}</b>
+        </a>
+      </span>
+      <br />
+      {{ TypeList[task.type] }}<br />
+      {{ StatusList[task.status] }}<br />
+      <mat-divider />
+      <i>Created by <b>{{ task.created_by.name }}</b> on {{ task.created_on }}</i>
+      <br />
+    </div>
+  }
+</div>

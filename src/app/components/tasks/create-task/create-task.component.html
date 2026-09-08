@@ -1,0 +1,24 @@
+<form class="create-form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Title</mat-label>
+    <input matInput id="title" name="title" [(ngModel)]="title" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Type</mat-label>
+    <mat-select id="type" name="type" [(ngModel)]="type">
+      @for (option of typeOptions; track option.value) {
+        <mat-option [value]="option.value">{{ option.title }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea matInput id="description" name="description" rows="10" [(ngModel)]="description"></textarea>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="buttonDisabled">
+    Create
+  </button>
+</form>

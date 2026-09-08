@@ -1,0 +1,62 @@
+/* Global styles */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.nav-bar-button:hover {
+  background-color: aliceblue !important;
+}
+
+.link-formatting {
+  color: darkblue;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.taskplanner-title {
+  color: lightskyblue;
+  text-decoration: none;
+}
+
+.taskplanner-title:hover {
+  text-decoration: none;
+}
+
+.navbar-bar {
+  background-color: lightskyblue;
+  padding: 0.2em;
+  text-align: center;
+  min-height: 2.7em;
+}
+
+.content-area {
+  background-color: aliceblue;
+  padding: 1em;
+  min-height: 30em;
+}
+
+.task-card {
+  margin-bottom: 0.5em;
+  background-color: white;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+.assignee-link {
+  cursor: pointer;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #fff;
+}

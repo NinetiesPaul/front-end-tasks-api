@@ -1,0 +1,59 @@
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.main-cell,
+.assignee-cell,
+.padded {
+  padding: 8px;
+  vertical-align: top;
+}
+
+.assignee-cell {
+  width: 18em;
+}
+
+.task-title {
+  display: inline-block;
+}
+
+.edit-btn {
+  height: 3.5em;
+  margin-top: -0.6em;
+  background-color: lightskyblue !important;
+  color: black !important;
+  font-size: x-small;
+}
+
+.close-btn {
+  height: 3.5em;
+  margin-top: -0.6em;
+  background-color: lightcoral !important;
+  color: black !important;
+  font-size: x-small;
+}
+
+.chips {
+  display: flex;
+  gap: 0.5em;
+  margin-top: 0.5em;
+  flex-wrap: wrap;
+}
+
+.status-chip {
+  min-width: 10em;
+  justify-content: center;
+}
+
+.priority-chip {
+  min-width: 10em;
+  justify-content: center;
+  --mdc-chip-label-text-color: #fff;
+  background-color: #f44336 !important;
+  color: #fff !important;
+}
+
+.assignee-select {
+  width: 100%;
+}

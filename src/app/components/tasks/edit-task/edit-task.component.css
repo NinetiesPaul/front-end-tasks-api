@@ -1,0 +1,26 @@
+.edit-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.padded {
+  padding: 8px;
+}
+
+.task-title {
+  display: inline-block;
+}
+
+.update-btn {
+  height: 2.2em;
+  margin-top: -0.6em;
+  background-color: lightskyblue !important;
+  color: black !important;
+  font-size: x-small;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+  margin-bottom: 0.5em;
+}

@@ -1,6 +1,6 @@
 ## Task Manager - Frontend
 
-Front-end em Vue.js para as APIs de Tasks (PHP, Node, Python ou Java Spring Boot).
+Front-end em Angular para as APIs de Tasks (PHP, Node, Python ou Java Spring Boot).
 
 ## Requisitos de ambiente
 
@@ -23,9 +23,9 @@ npm install
 cp .env.dist .env
 ```
 
-- Defina o endereço do backend no `.env`. Exemplo:
+- Defina o endereço do backend em `src/environments/environment.ts`. Exemplo:
 ```
-VITE_SERVER_HOST=http://localhost:8080
+serverHost: 'http://localhost:8080'
 ```
 
 - Inicie o front-end (porta 3005):
@@ -35,7 +35,7 @@ npm start
 
 ## Execução com Docker
 
-O `VITE_SERVER_HOST` é o URL do backend visto pelo **navegador** (não pelo container). Se a API estiver em `localhost:8080` na sua máquina, esse valor continua correto.
+O `NG_APP_SERVER_HOST` é o URL do backend visto pelo **navegador** (não pelo container). Se a API estiver em `localhost:8080` na sua máquina, esse valor continua correto.
 
 ```
 cp .env.dist .env
@@ -46,7 +46,7 @@ A aplicação fica disponível em [http://localhost:3005](http://localhost:3005)
 
 Para apontar para outro backend no build:
 ```
-VITE_SERVER_HOST=http://localhost:8080 docker compose up --build
+NG_APP_SERVER_HOST=http://localhost:8080 docker compose up --build
 ```
 
 Para usar outra porta no host:

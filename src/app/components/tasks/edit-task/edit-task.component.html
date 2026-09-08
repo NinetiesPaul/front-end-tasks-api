@@ -1,0 +1,46 @@
+@if (task.id) {
+  <table class="edit-table">
+    <tbody>
+      <tr>
+        <td class="padded">
+          <h2 class="task-title">{{ task.title }}</h2>&nbsp;&nbsp;&nbsp;
+          <button mat-flat-button class="update-btn" type="button" (click)="handleUpdate(task.id)">
+            Update
+          </button>
+          <br /><b>Created On:</b> {{ task.created_on }} <b>By</b> {{ createdBy.name }}<br />
+        </td>
+      </tr>
+      <tr>
+        <td class="padded">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Title</mat-label>
+            <input matInput id="title" name="title" [(ngModel)]="title" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Status</mat-label>
+            <mat-select id="status" name="status" [(ngModel)]="status">
+              @for (option of statusOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.title }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Type</mat-label>
+            <mat-select id="type" name="type" [(ngModel)]="type">
+              @for (option of typeOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.title }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput id="description" name="description" rows="10" [(ngModel)]="description"></textarea>
+          </mat-form-field>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+}

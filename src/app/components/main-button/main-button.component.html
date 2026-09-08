@@ -1,0 +1,17 @@
+@if (auth.loggedIn()) {
+  <button mat-button class="nav-bar-button" [matMenuTriggerFor]="menu" style="float: left">
+    <span class="link-formatting">Menu</span>
+  </button>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item routerLink="/task">
+      <span class="link-formatting">Create Task</span>
+    </a>
+    <a mat-menu-item routerLink="/logout">
+      <span class="link-formatting">Logout</span>
+    </a>
+  </mat-menu>
+} @else {
+  <a mat-button class="nav-bar-button" routerLink="/login" style="float: left; color: #6f3857; font-weight: bold; text-decoration: none">
+    Login
+  </a>
+}

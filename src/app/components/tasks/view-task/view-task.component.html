@@ -1,0 +1,80 @@
+@if (task.id) {
+  <table class="task-table">
+    <tbody>
+      <tr>
+        <td class="main-cell">
+          <h2 class="task-title">{{ task.title }}</h2>&nbsp;&nbsp;&nbsp;
+          @if (task.status !== 'closed') {
+            <a
+              mat-flat-button
+              class="edit-btn"
+              [routerLink]="['/task/edit', task.id]"
+            >
+              Edit
+            </a>&nbsp;
+            <button mat-flat-button class="close-btn" type="button" (click)="handleCloseTask(task.id)">
+              Close
+            </button>
+          }
+          <br /><b>Created On:</b> {{ task.created_on }} <b>By</b> {{ createdBy.name }}
+          @if (closedBy !== null) {
+            <br /><b>Closed On:</b> {{ task.closed_on }} <b>By</b> {{ closedBy.name }}
+          }
+          <mat-chip-set class="chips">
+            <mat-chip class="status-chip">{{ StatusList[task.status] }}</mat-chip>
+            <mat-chip class="status-chip">{{ TypeList[task.type] }}</mat-chip>
+            <mat-chip class="priority-chip">High hhhh</mat-chip>
+          </mat-chip-set>
+        </td>
+        <td class="assignee-cell">
+          <mat-form-field appearance="outline" class="assignee-select">
+            <mat-label>Assignee</mat-label>
+            <mat-select
+              id="assignee"
+              [(ngModel)]="selectedAssignee"
+              (selectionChange)="handleTaskAssignment($event.value)"
+            >
+              @for (user of users; track user.id) {
+                <mat-option [value]="user.id">{{ user.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <b>Assignees:</b><br />
+          @for (assignee of assignees; track assignee.id) {
+            <a href="#" class="assignee-link" (click)="$event.preventDefault(); handleTaskUnassignment(assignee.id)">
+              {{ assignee.assigned_to.name }}
+            </a>
+            <br />
+          }
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="padded">
+          <b>Description:</b><br />
+          {{ task.description }}<br />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="padded">
+          <b>Task History   ss:</b><br />
+          @for (historyEntry of taskHistory; track $index) {
+            @if (historyEntry.field === 'added_assignee' || historyEntry.field === 'removed_assignee') {
+              {{ historyEntry.changed_by.name }}
+              {{ EnumDictionary[historyEntry.field] }}
+              {{ historyEntry.changed_to }} as an assignee
+              <br />
+            } @else {
+              {{ capitalize(historyEntry.field) }} changed from
+              <i>{{ EnumDictionary[historyEntry.changed_from] }}</i>
+              to
+              <i>{{ EnumDictionary[historyEntry.changed_to] }}</i>
+              by {{ historyEntry.changed_by.name }} on {{ historyEntry.changed_on }}
+              <br />
+            }
+          }
+        </td>
+      </tr>
+    </tbody>
+  </table>
+}

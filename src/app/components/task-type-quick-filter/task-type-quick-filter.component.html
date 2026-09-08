@@ -1,0 +1,11 @@
+@for (type of types; track type) {
+  <a
+    mat-button
+    class="nav-bar-button"
+    [routerLink]="['/']"
+    [queryParams]="{ tipo: type }"
+    style="color: darkblue; font-weight: bold; text-decoration: none"
+  >
+    {{ type }}
+  </a>
+}
