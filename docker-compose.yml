@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        REACT_APP_SERVER_HOST: ${REACT_APP_SERVER_HOST:-http://localhost:8080}
+        REACT_APP_SERVER_HOST: ${REACT_APP_SERVER_HOST:-http://localhost:3000}
     image: task-manager-frontend
     ports:
       - "${FRONTEND_PORT:-3005}:80"

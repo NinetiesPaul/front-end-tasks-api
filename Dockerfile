@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . .
 
-ARG REACT_APP_SERVER_HOST=http://localhost:8080
+ARG REACT_APP_SERVER_HOST=http://localhost:3000
 ENV REACT_APP_SERVER_HOST=$REACT_APP_SERVER_HOST
 
 RUN npm run build

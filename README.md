@@ -19,7 +19,7 @@ cp .env.dist .env
 ```
 - Before running the application, set the host address on the .env file which is going to be used to serve the backend application. For example:
 ```
-REACT_APP_SERVER_HOST=http://localhost:8080
+REACT_APP_SERVER_HOST={host}:{port} (eg. http://localhost:3000)
 ```
 - Run the application to consume the RESTful application (If the server is running, that is)
 ```
