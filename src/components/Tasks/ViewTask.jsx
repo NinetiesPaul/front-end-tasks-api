@@ -45,7 +45,7 @@ function ViewTask()
             setShowNotification(true)
             setNotificationMsg(message)
         });
-    });
+    }, []);
 
     useEffect(() => {
         fetch(host + '/api/users/list', { headers: { 'Authorization': 'Bearer ' + token } })
