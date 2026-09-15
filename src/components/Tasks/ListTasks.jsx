@@ -1,5 +1,5 @@
 import { Alert, Grid, Snackbar, TextField, Divider, Container, MenuItem } from "@mui/material";
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 import ErrorMessages from "../../enums/ErrorMessages";
