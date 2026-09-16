@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 
 import ErrorMessages from "../../enums/ErrorMessages";
 
+import { taskService } from "../../services/taskService";
+
 function CreateTask()
 {
     const navigate = useNavigate();
@@ -11,27 +13,13 @@ function CreateTask()
     const [notificationType, setNotificationType] = useState("");
     const [notificationMsg, setNotificationMsg] = useState("");
     const [showNotification, setShowNotification] = useState(false);
-    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [type, setType] = useState(null);
 
-    const host = process.env.REACT_APP_SERVER_HOST;
-    const token = sessionStorage.getItem("token");
-
     const handleSubmit = async () => {
-        await fetch(host + '/api/task/create',
-        {
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }, 
-            method: 'POST', 
-            body: buildRequestObject()
-        })
-        .then((response) => response.json())
+        await taskService.createTask(buildRequestObject())
         .then((data) => {
             if (data.success) {                
                 navigate("/task/view/" + data.data.id);
@@ -48,7 +36,6 @@ function CreateTask()
                 setShowNotification(true)
                 setNotificationMsg(message)
             }
-            setButtonDisabled(false);
         })
         .catch((err) => {
             var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
@@ -74,7 +61,7 @@ function CreateTask()
             requestObj.type = type;
         }
 
-        return JSON.stringify(requestObj);
+        return requestObj;
     }
 
     return(
@@ -82,7 +69,6 @@ function CreateTask()
             <form onSubmit={
                 (event) => {
                     event.preventDefault();
-                    setButtonDisabled(true);
                     handleSubmit({ title: title, description: description, type: type });
                 }
             }
@@ -114,7 +100,7 @@ function CreateTask()
                 }
                 />
                 
-                <Button type="submit" variant="contained" disabled={buttonDisabled}>Create</Button>
+                <Button type="submit" variant="contained" >Create</Button>
             </form>
             
             <Snackbar

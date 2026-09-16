@@ -6,45 +6,28 @@ import ErrorMessages from "../../enums/ErrorMessages";
 import StatusList from "../../enums/StatusList";
 import TypeList from "../../enums/TypeList";
 
+import { taskService } from "../../services/taskService";
+import { userService } from "../../services/userService";
+
 function ListTasks()
 {
     const [notificationType, setNotificationType] = useState("");
     const [notificationMsg, setNotificationMsg] = useState("");
     const [showNotification, setShowNotification] = useState(false);
 
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-
     const [tasks, setTasks] = useState([]);
     const [users, setUsers] = useState([]);
-
     const [filterContext, setFilterContext] = useState("status");
     const [filterParam, setFilterParam] = useState('');
     const [filterByUser, setFilterByUser] = useState("");
 
+    const [searchParams] = useSearchParams();
     const filterString = (searchParams.get('tipo') === null) ? '' : '?type='+searchParams.get('tipo');
-    const host = process.env.REACT_APP_SERVER_HOST;
-    const token = sessionStorage.getItem("token");
 
-    if (!token) {
-        navigate("/login");
-    }
-
-    const handleRequest = () => {
-        fetch( host + '/api/task/list' + filterString, { headers: { 'Authorization': 'Bearer ' + token } } )
-        .then((response) => response.json())
+    useEffect(() => {
+        taskService.getTasks()
         .then((data) => {
             setTasks(data.data.tasks);
-            
-            var ids = [];
-            var filteredUsers = [];
-            data.data.tasks.filter((task) => {
-                if (!ids.includes(task.created_by.id)){
-                    ids.push(task.created_by.id)
-                    filteredUsers.push({ id: task.created_by.id, name: task.created_by.name })
-                }
-            })
-            setUsers(filteredUsers);
         })
         .catch((err) => {
             var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
@@ -52,10 +35,19 @@ function ListTasks()
             setShowNotification(true)
             setNotificationMsg(message)
         });
-    }
+    }, []);
 
     useEffect(() => {
-        handleRequest();
+        userService.getUsers()
+        .then((data) => {
+            setUsers(data.data.users);
+        })
+        .catch((err) => {
+            var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
+            setNotificationType('error')
+            setShowNotification(true)
+            setNotificationMsg(message)
+        });
     }, []);
 
     return(
@@ -65,6 +57,8 @@ function ListTasks()
                     onChange={
                         (event) => {
                             setFilterContext(event.target.value);
+                            setFilterParam('');
+                            setFilterByUser('');
                         }
                     } select
                 >
@@ -73,24 +67,64 @@ function ListTasks()
                     <MenuItem value="created_by">Created by</MenuItem>
                 </TextField>
                 
-                { filterContext !== "created_by" ? (
-                    <TextField label={`Search ${filterContext}`} size="small" onChange={(event) => { setFilterParam(event.target.value); }} />
-                ) : (
-                    <TextField label="Filter by user" size="small" style={{minWidth: "10%", marginRight: '2em'}}
-                        onChange={
-                            (event) => {
-                                setFilterByUser(event.target.value);
-                            }
-                        } select
-                    >
-                        <MenuItem value="">&nbsp;</MenuItem>
-                        {
-                            users.map((user) => {
-                                return <MenuItem value={user.id}>{user.name}</MenuItem>
-                            })
-                        }
-                    </TextField>
-                )}
+                {(() => {
+                    switch (filterContext) {
+                        case "type":
+                            return (
+                                <TextField
+                                    label={`Search ${filterContext}`}
+                                    size="small"
+                                    onChange={(event) => { setFilterParam(event.target.value); }}
+                                    style={{minWidth: "20%"}}
+                                    select
+                                >
+                                    <MenuItem value="">All types</MenuItem>
+                                    {
+                                        Object.keys(TypeList).map((type) => (
+                                            <MenuItem value={type} key={type}>{TypeList[type]}</MenuItem>
+                                        ))
+                                    }
+                                </TextField>
+                            );
+                        case "status":
+                            return (
+                                <TextField
+                                    label={`Search ${filterContext}`}
+                                    size="small"
+                                    onChange={(event) => { setFilterParam(event.target.value); }}
+                                    style={{minWidth: "20%"}}
+                                    select
+                                >
+                                    <MenuItem value="">All statuses</MenuItem>
+                                    {
+                                        Object.keys(StatusList).map((status) => (
+                                            <MenuItem value={status} key={status}>{StatusList[status]}</MenuItem>
+                                        ))
+                                    }
+                                </TextField>
+                            );
+                        case "created_by":
+                            return (
+                                <TextField
+                                    label="Filter by user"
+                                    size="small"
+                                    onChange={(event) => { setFilterByUser(event.target.value); }}
+                                    style={{ minWidth: "20%" }}
+                                    select
+                                >
+                                    <MenuItem value="">All users</MenuItem>
+                                    {
+                                        users.map((user) => (
+                                            <MenuItem value={user.id} key={user.id}>{user.name}</MenuItem>
+                                        ))
+                                    }
+                                </TextField>
+                            );
+                        default:
+                            return null;
+                    }
+                })()}
+           
             </p>
             <Container style={{gap: '2em', padding:'1em'}} >
                 {
