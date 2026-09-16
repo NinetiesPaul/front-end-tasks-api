@@ -6,6 +6,9 @@ import StatusList from "../../enums/StatusList";
 import TypeList from "../../enums/TypeList";
 import EnumDictionary from "../../enums/EnumDictionary"
 
+import { taskService } from "../../services/taskService";
+import { userService } from "../../services/userService";
+
 function ViewTask()
 {
     const [notificationType, setNotificationType] = useState("");
@@ -18,17 +21,11 @@ function ViewTask()
     const [taskHistory, setTaskHistory] = useState([]);
     const [assignees, setAssignees] = useState([]);
     const [comments, setComments] = useState([]);
-
     const [newComment, setNewComment] = useState(null);
-
     const [users, setUsers] = useState([]);
 
-    const host = process.env.REACT_APP_SERVER_HOST;
-    const token = sessionStorage.getItem("token");
-
     useEffect(() => {
-        fetch(host + '/api' + window.location.pathname, { headers: { 'Authorization': 'Bearer ' + token } })
-        .then((response) => response.json())
+        taskService.getTaskById(window.location.pathname.split('/').pop())
         .then((data) => {
             setTask(data.data);
             setCreatedBy(data.data.created_by);
@@ -48,8 +45,7 @@ function ViewTask()
     }, []);
 
     useEffect(() => {
-        fetch(host + '/api/users/list', { headers: { 'Authorization': 'Bearer ' + token } })
-        .then((response) => response.json())
+        userService.getUsers()
         .then((data) => {
             let currentAssignees = assignees.map((assignee) => { return assignee.assigned_to.name; })
             let allUsers = data.data.users;
@@ -67,8 +63,7 @@ function ViewTask()
 
     const handleCloseTask = (taskId) => 
     {
-        fetch(host + '/api/task/close/' + taskId, { headers: { 'Authorization': 'Bearer ' + token }, method: 'PUT' })
-        .then((response) => response.json())
+        taskService.closeTask(taskId)
         .then((data) => {
             if (data.success) {
                 window.location.reload(false)
@@ -84,23 +79,15 @@ function ViewTask()
 
     const handleTaskAssignment = (userId) => 
     {
-        fetch(host + '/api/task/assign/' + task.id,
+        taskService.assignTask(task.id, 
             {
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                method: 'POST', 
-                body: JSON.stringify(
-                    {
-                        assigned_to: userId
-                    }
-                )
-            })
-        .then((response) => response.json())
+                assigned_to: userId
+            }
+        )
         .then((data) => {
-            window.location.reload(false)
+            if (data.success) {
+                window.location.reload(false)
+            }
         })
         .catch((err) => {
             var message = (err.message !== '') ? err.message : ErrorMessages.DEFAULT_ERROR_MSG;
@@ -112,16 +99,7 @@ function ViewTask()
 
     const handleTaskUnassignment = (assignedId) =>
     {
-        fetch(host + '/api/task/unassign/' + assignedId,
-            {
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                method: 'DELETE',
-            })
-        .then((response) => response.json())
+        taskService.unassignTask(assignedId)
         .then((data) => {
             if (data.success) {
                 window.location.reload(false)
@@ -137,19 +115,9 @@ function ViewTask()
 
     const handleAddComment = (taskId) => 
         {
-            fetch(host + '/api/task/comment/' + taskId, 
-            {
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }, 
-                method: 'POST', 
-                body: JSON.stringify({
-                    "text": newComment
-                })
+            taskService.addComment(taskId, {
+                text: newComment
             })
-            .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
                     window.location.reload(false)
@@ -165,16 +133,7 @@ function ViewTask()
 
     const handleRemoveComment = (commentId) => 
         {
-            fetch(host + '/api/task/comment/' + commentId, 
-            {
-                headers: {
-                    accept: 'application/json',
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }, 
-                method: 'DELETE'
-            })
-            .then((response) => response.json())
+            taskService.deleteComment(commentId)
             .then((data) => {
                 if (data.success) {
                     window.location.reload(false)

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 
 import ErrorMessages from "../../enums/ErrorMessages";
 
+import { taskService } from "../../services/taskService";
+
 function EditTask()
 {
     const navigate = useNavigate();
@@ -20,12 +22,8 @@ function EditTask()
     const [status, setStatus] = useState(null);
     const [type, setType] = useState(null);
 
-    const host = process.env.REACT_APP_SERVER_HOST;
-    const token = sessionStorage.getItem("token");
-
     useEffect(() => {
-        fetch(host + '/api/task/view/' + window.location.pathname.split("/")[3] , { headers: { 'Authorization': 'Bearer ' + token } })
-        .then((response) => response.json())
+        taskService.getTaskById(window.location.pathname.split("/")[3])
         .then((data) => {
             setTask(data.data);
             setCreatedBy(data.data.created_by);
@@ -40,17 +38,7 @@ function EditTask()
 
     const handleUpdate = (taskId) => 
     {
-        fetch(host + '/api/task/update/' + taskId, 
-        {
-            headers: {
-                accept: 'application/json',
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }, 
-            method: 'PUT', 
-            body: buildRequestObject()
-        })
-        .then((response) => response.json())
+        taskService.updateTask(taskId, buildRequestObject())
         .then(() => {
             navigate("/task/view/" + taskId);
         })
@@ -82,7 +70,7 @@ function EditTask()
             requestObj.type = type;
         }
 
-        return JSON.stringify(requestObj);
+        return requestObj;
     }
 
     return (

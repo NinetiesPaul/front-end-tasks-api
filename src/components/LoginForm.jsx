@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+import { userService } from "../services/userService";
 import ErrorMessages from "../enums/ErrorMessages";
 
 function LoginForm({setLogged})
@@ -15,19 +16,8 @@ function LoginForm({setLogged})
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const host = process.env.REACT_APP_SERVER_HOST;
-
     const handleSubmit = async (args) => {
-        console.log(args)
-        await fetch(host + '/login', {
-            headers: {
-              accept: 'application/json',
-              'content-type': 'application/json',
-            },
-            method: 'POST',
-            body: JSON.stringify(args)
-        })
-        .then((response) => response.json())
+        await userService.authenticateUser(args)
         .then((data) => {
             if (data.success) {
                 sessionStorage.setItem("token", data.token);
